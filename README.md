@@ -1,5 +1,5 @@
 # ReFORM: Review-aggregated Profile Generation via LLM with Multi-Factor Attentive Recommendation
-
+![Image](https://github.com/user-attachments/assets/c64af119-80d2-40e8-a224-f084c08dbdae)
  This is the PyTorch implementation by <a href='https://github.com/m0onsoo'>@m0onsoo</a> for ReFORM framework proposed in this [paper]():
 
  >**ReFORM: Review-aggregated Profile Generation via LLM with Multi-Factor Attentive Recommendation**  
