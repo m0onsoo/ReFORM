@@ -1,10 +1,10 @@
 # ReFORM: Review-aggregated Profile Generation via LLM with Multi-Factor Attentive Recommendation
-![Image](https://github.com/user-attachments/assets/38ed3c1c-06de-40b8-b5de-5901b030f572)
- This is the PyTorch implementation by <a href='https://github.com/m0onsoo'>@m0onsoo</a> for ReFORM framework proposed in this [paper]():
+
+ This is the PyTorch implementation by Anonymous for ReFORM framework
 
  >**ReFORM: Review-aggregated Profile Generation via LLM with Multi-Factor Attentive Recommendation**  
- >Moonsoo Park\
- >*IJCAI 2025*
+ >Anonymous\
+ >*RecSys 2025*
 
 
 
@@ -12,7 +12,7 @@
 ## 📝 Environment
 You can run the following command to download the codes faster:
 ```bash
-git clone --depth 1 https://github.com/m0onsoo/ReFORM.git
+git clone --depth 1 https://github.com/Anonymous/ReFORM.git
 ```
 
 Then run the following commands to create a conda environment:
@@ -30,11 +30,12 @@ pip install pyyaml tqdm
 pip install transformers
 ```
 
-😉 The codes are developed based on the [RLMRec](https://github.com/HKUDS/RLMRec) framework.
+😉 The codes are developed based on the [RLMRec](https://github.com/HKUDS/RLMRec) framework.  
+🔎 Other baselines in the paper used the [MMRec](https://github.com/enoche/MMRec) framework.
 
 ## 📚 Text-attributed Recommendation Dataset (TBD)
 
-We utilized two public datasets to evaluate ReFORM:  *Yelp* and *Google Restaurant*.
+We utilized two public datasets to evaluate ReFORM:  *Yelp* and *Google Restaurants*.
 
 Each user and item has a generated text description.
 
@@ -52,15 +53,15 @@ Each dataset consists of a training set, a validation set, and a test set. Durin
 |--- trn_mat.pkl            # training set (sparse matrix)
 |--- val_mat.pkl            # validation set (sparse matrix)
 |--- tst_mat.pkl            # test set (sparse matrix)
-|--- usr_emb_factors.pkl    # text description of users
-|--- itm_emb_factors.pkl    # text description of items
+|--- usr_emb_factors.pkl    # user text embeddings
+|--- itm_emb_factors.pkl    # user text embeddings
 |--- usr_emb_mean.pkl       # user text embeddings
 |--- itm_emb_mean.pkl       # item text embeddings
 ```
 
 ### User/Item Profile
 - Each profile is a **high quality text description for each factor** of a user/item.
-- Both user and item profiles are generated from **Large Language Models** from their own reviews.
+- Both user and item profiles are generated from **Large Language Model** from their own reviews.
 <!-- - The `user profile` (in `usr_prf.pkl`) shows the particular types of items that the user tends to prefer. 
 - The `item profile` (in `itm_prf.pkl`) articulates the specific types of users that the item is apt to attract.  -->
 
@@ -76,7 +77,7 @@ The original data of our dataset can be found from following links (thanks to th
 - Yelp: https://business.yelp.com/data/resources/open-dataset/
 - Google Restaurant: https://cseweb.ucsd.edu/~jmcauley/datasets.html#google_restaurants
 
-🤗 Welcome to use our processed data to improve your research!
+<!-- 🤗 Welcome to use our processed data to improve your research! -->
 
 ## 🚀 Examples to run the codes
 
@@ -92,7 +93,7 @@ The command to evaluate the backbone models and ReFORM is as follows.
   
 Supported models/datasets:
 
-* model_name:  `gccf`, `lightgcn`, `sgl`, `simgcl`, `rlmrec_con`
+* model_name:  `gccf`, `lightgcn`, `sgl`, `simgcl`, `rlmrec`, `reform`
 * dataset: `yelp`, `google`
 
 Hypeparameters:
@@ -127,9 +128,9 @@ For semantic representation encoding, you can also try other text embedding mode
 
 😀 The **factor descriptions** we designed are in the `generate_{item/user}_profile.py` files. You can modify them according to your requirements and generate the desired output!
 
-## 🌟 Citation
+<!-- ## 🌟 Citation
 If you find this work is helpful to your research, please consider citing our paper:
 ```bibtex
 @inproceedings{TBD
 }
-```
+``` -->

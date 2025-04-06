@@ -11,7 +11,7 @@ train:
   test_step: 3
   reproducible: true
   seed: 2023
-  patience: 10
+  patience: 5
 
 test:
   metrics: [recall, ndcg]
@@ -32,10 +32,7 @@ model:
   # dataset-specific parameters here
   layer_num: 3
   reg_weight: 1.0e-6
-  # for amazon
-  amazon:
-    layer_num: 2
-    reg_weight: 1.0e-6
+
   # for yelp
   yelp:
     layer_num: 2
@@ -45,8 +42,4 @@ model:
     layer_num: 3
     reg_weight: 1.0e-6
 
-  # for steam
-  steam:
-    layer_num: 2
-    reg_weight: 1.0e-6
 

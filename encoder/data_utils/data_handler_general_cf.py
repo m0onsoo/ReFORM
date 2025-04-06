@@ -50,7 +50,7 @@ class DataHandlerGeneralCF:
         d_inv_sqrt_mat = sp.diags(d_inv_sqrt)
         return mat.dot(d_inv_sqrt_mat).transpose().dot(d_inv_sqrt_mat).tocoo()
     
-    def _make_torch_adj2(self, mat):
+    def _make_torch_history(self, mat):
         r, c = np.array(mat.row), np.array(mat.col)
         indices = t.tensor(np.array([r, c]))  
         values = t.tensor(mat.data)           
@@ -101,7 +101,7 @@ class DataHandlerGeneralCF:
         self.trn_mat = trn_mat
         configs['data']['user_num'], configs['data']['item_num'] = trn_mat.shape
         self.torch_adj = self._make_torch_adj(trn_mat)
-        self.torch_adj2 = self._make_torch_adj2(trn_mat)
+        self.torch_history = self._make_torch_history(trn_mat)
         
         if configs['model']['name'] == 'gccf':
             self.torch_adj = self._make_torch_adj(trn_mat, self_loop=True)

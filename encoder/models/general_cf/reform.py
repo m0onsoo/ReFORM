@@ -17,7 +17,7 @@ class ReFORM(BaseModel):
     def __init__(self, data_handler):
         super(ReFORM, self).__init__(data_handler)
         self.adj = data_handler.torch_adj
-        self.adj2 = data_handler.torch_adj2
+        self.history = data_handler.torch_history
         self.keep_rate = configs['model']['keep_rate']
         self.user_embeds = nn.Parameter(init(t.empty(self.user_num, self.embedding_size)))
         self.item_embeds = nn.Parameter(init(t.empty(self.item_num, self.embedding_size)))
@@ -31,12 +31,12 @@ class ReFORM(BaseModel):
         # hyper-parameter
         self.layer_num = self.hyper_config['layer_num']
         self.reg_weight = self.hyper_config['reg_weight']
-        self.k = configs['model']['k']
+        self.n = self.hyper_config['n']
 
-        self.row_indices = self.adj2.indices()[0]  
-        self.col_indices = self.adj2.indices()[1] 
-        self.max_row = self.adj2.indices()[0].max().item()
-        self.max_col = self.adj2.indices()[1].max().item()
+        self.row_indices = self.history.indices()[0]  
+        self.col_indices = self.history.indices()[1] 
+        self.max_row = self.history.indices()[0].max().item()
+        self.max_col = self.history.indices()[1].max().item()
 
         # semantic-embeddings
         self.usrprf_embeds = t.tensor(configs['usrprf_embeds']).float().cuda() 
@@ -68,11 +68,11 @@ class ReFORM(BaseModel):
             interacted_items = self.col_indices[self.row_indices == user_id].tolist()
 
             # sampling
-            if len(interacted_items) > self.k:
-                interacted_items = random.sample(interacted_items, self.k)
+            if len(interacted_items) > self.n:
+                interacted_items = random.sample(interacted_items, self.n)
             batch_interacted_items.append(interacted_items)
 
-        target_shape = (batch_user_ids.size(0), self.k)
+        target_shape = (batch_user_ids.size(0), self.n)
         pad_value = -1  
 
         batch_interacted_items_tensor = t.full(target_shape, pad_value, dtype=t.long)
@@ -87,11 +87,11 @@ class ReFORM(BaseModel):
             interacted_users = self.row_indices[self.col_indices == item_id].tolist()
 
             # sampling
-            if len(interacted_users) > self.k:
-                interacted_users = random.sample(interacted_users, self.k)
+            if len(interacted_users) > self.n:
+                interacted_users = random.sample(interacted_users, self.n)
             batch_interacted_users.append(interacted_users)
 
-        target_shape = (batch_item_ids.size(0), self.k)
+        target_shape = (batch_item_ids.size(0), self.n)
         pad_value = -1
 
         batch_interacted_users_tensor = t.full(target_shape, pad_value, dtype=t.long)
@@ -119,10 +119,10 @@ class ReFORM(BaseModel):
         attention_scores = t.einsum("bqd,bndk->bnqk", user_query, item_keys_t) / (user_query.size(-1) ** 0.5)
 
         attention_weights = F.softmax(attention_scores, dim=-1)
-        attention_weights_mean = attention_weights.max(dim=1).values
+        attention_weights_max = attention_weights.max(dim=1).values
         # attention_weights_mean = attention_weights.mean(dim=1)       # mean pooling
 
-        user_weighted_val = t.matmul(attention_weights_mean, user_value)
+        user_weighted_val = t.matmul(attention_weights_max, user_value)
         user_weighted_val = t.mean(user_weighted_val, dim=1)
 
         return user_weighted_val
@@ -146,10 +146,10 @@ class ReFORM(BaseModel):
         attention_scores = t.einsum("bqd,bndk->bnqk", item_query, user_keys_t) / (item_query.size(-1) ** 0.5)
 
         attention_weights = F.softmax(attention_scores, dim=-1)  
-        attention_weights_mean = attention_weights.max(dim=1).values 
+        attention_weights_max = attention_weights.max(dim=1).values 
         # attention_weights_mean = attention_weights.mean(dim=1)       # mean pooling
 
-        item_weighted_val = t.matmul(attention_weights_mean, item_value)
+        item_weighted_val = t.matmul(attention_weights_max, item_value)
         item_weighted_val = t.mean(item_weighted_val, dim=1)
 
         return item_weighted_val

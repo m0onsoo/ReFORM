@@ -11,7 +11,7 @@ train:
   test_step: 3
   reproducible: true
   seed: 2023
-  patience: 10
+  patience: 5
 
 test:
   metrics: [recall, ndcg]
@@ -34,34 +34,14 @@ model:
   cl_weight: 1.0e-1
   temperature: 0.2
   eps: 0.9
-  # for amazon
-  amazon:
-    layer_num: 3
-    reg_weight: 1.0e-5
-    cl_weight: 1.0e-1
-    temperature: 0.2
-    eps: 0.9
+
   # for yelp
-  # yelp:
-  #   layer_num: 3
-  #   reg_weight: 1.0e-5
-  #   cl_weight: 1.0e-1
-  #   temperature: 0.2
-  #   eps: 0.9
   yelp:
     layer_num: 3
     reg_weight: 1.0e-5
     cl_weight: 1.0e-1
     temperature: 0.5
     eps: 0.05
-
-  # for steam
-  # steam:
-  #   layer_num: 3
-  #   reg_weight: 1.0e-5
-  #   cl_weight: 1.0e-1
-  #   temperature: 0.5
-  #   eps: 0.2
 
   # for google
   google:

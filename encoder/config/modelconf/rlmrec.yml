@@ -11,7 +11,7 @@ train:
   test_step: 3
   reproducible: true
   seed: 2023
-  patience: 10
+  patience: 5
 
 test:
   metrics: [recall, ndcg]
@@ -23,7 +23,7 @@ data:
   name: yelp
 
 model:
-  name: rlmrec_con
+  name: rlmrec
   # general parameters here
   keep_rate: 0.8
   embedding_size: 256
@@ -33,15 +33,17 @@ model:
   reg_weight: 1.0e-7
   kd_weight: 1.0e-2
   kd_temperature: 0.2
-
+  
+  # for yelp
   yelp:
     layer_num: 3
     reg_weight: 1.0e-7
     kd_weight: 1.0e-2
     kd_temperature: 0.2
 
+  # for google
   google:
     layer_num: 3
-    reg_weight: 1.0e-5
-    kd_weight: 1.0e-2
-    kd_temperature: 0.1
+    reg_weight: 1.0e-6
+    kd_weight: 1.0e-3
+    kd_temperature: 0.05

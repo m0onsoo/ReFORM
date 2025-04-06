@@ -9,9 +9,9 @@ from models.model_utils import SpAdjEdgeDrop
 init = nn.init.xavier_uniform_
 uniformInit = nn.init.uniform
 
-class RLMRec_Con(BaseModel):
+class RLMRec(BaseModel):
     def __init__(self, data_handler):
-        super(RLMRec_Con, self).__init__(data_handler)
+        super(RLMRec, self).__init__(data_handler)
         self.adj = data_handler.torch_adj
         self.keep_rate = configs['model']['keep_rate']
         self.user_embeds = nn.Parameter(init(t.empty(self.user_num, self.embedding_size)))
@@ -86,9 +86,7 @@ class RLMRec_Con(BaseModel):
 
         usrprf_embeds = self.mlp(self.usrprf_embeds)
         itmprf_embeds = self.mlp(self.itmprf_embeds)
-        # print()
-        # print("mlp 거친 userprf 사이즈:", usrprf_embeds.shape)
-        # print()
+
         ancprf_embeds, posprf_embeds, negprf_embeds = self._pick_embeds(usrprf_embeds, itmprf_embeds, batch_data)
 
         bpr_loss = cal_bpr_loss(anc_embeds, pos_embeds, neg_embeds) / anc_embeds.shape[0]
