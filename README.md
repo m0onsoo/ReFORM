@@ -30,24 +30,19 @@ pip install pyyaml tqdm
 pip install transformers
 ```
 
-😉 The codes are developed based on the [RLMRec](https://github.com/HKUDS/RLMRec) framework.  
-🔎 Other baselines in the paper used the [MMRec](https://github.com/enoche/MMRec) framework.
+😉 The codes are developed based on the RLMRec framework.  
+🔎 Other Contents-based GCN baselines in the paper used the MMRec framework.
 
-## 📚 Text-attributed Recommendation Dataset (TBD)
+## 📚 Text-attributed Recommendation Dataset
 
 We utilized two public datasets to evaluate ReFORM:  *Yelp* and *Google Restaurants*.
 
-Each user and item has a generated text description.
 
-First of all, please **download the data** by running following commands.
- ```
- cd data/
- wget https://archive.org/download/reform_data/data.zip
- unzip data.zip
- ```
+First of all, please **download the data** (Yelp/Google Restaurants) from [Google Drive](https://drive.google.com/drive/folders/17WYUnoX0SGo3bFN0w5Sbt23rEUjIjnYC?usp=sharing).  
+Please put these data under the **data** directory.
 
-
-Each dataset consists of a training set, a validation set, and a test set. During the training process, we utilize the validation set to determine when to stop the training in order to prevent overfitting.
+The data contains the coo matrix separated into train, validate, and test, as well as the transformed text embeddings.  
+During the training process, we utilize the validation set to determine when to stop the training in order to prevent overfitting.
 ```
 - yelp(google restaurant)
 |--- trn_mat.pkl            # training set (sparse matrix)
@@ -55,25 +50,16 @@ Each dataset consists of a training set, a validation set, and a test set. Durin
 |--- tst_mat.pkl            # test set (sparse matrix)
 |--- usr_emb_factors.pkl    # user text embeddings
 |--- itm_emb_factors.pkl    # user text embeddings
-|--- usr_emb_mean.pkl       # user text embeddings
-|--- itm_emb_mean.pkl       # item text embeddings
 ```
 
-### User/Item Profile
-- Each profile is a **high quality text description for each factor** of a user/item.
-- Both user and item profiles are generated from **Large Language Model** from their own reviews.
-<!-- - The `user profile` (in `usr_prf.pkl`) shows the particular types of items that the user tends to prefer. 
-- The `item profile` (in `itm_prf.pkl`) articulates the specific types of users that the item is apt to attract.  -->
-
-
 ### Semantic Representation
-- Each user and item has a semantic embedding encoded from its own profile using **Text Embedding Models**.
-- The encoded semantic embeddings are stored in `usr_emb_factors.pkl`, `itm_emb_factors.pkl`, `usr_emb_mean.pkl` and `itm_emb_mean.pkl`.
-- `usr_emb_factors.pkl` and `itm_emb_factors.pkl` are two-dimensional lists containing embeddings for each factor, and `usr_emb_mean.pkl` and `itm_emb_mean.pkl` are the means of embeddings for each factor.
+- Each user and item has a semantic embedding encoded from its own profile using **BERT**.
+- The encoded semantic embeddings are stored in `usr_emb_factors.pkl` and `itm_emb_factors.pkl`.
+- `usr_emb_factors.pkl` and `itm_emb_factors.pkl` are two-dimensional lists containing embeddings for each factor.
 
 ### Original Data
 
-The original data of our dataset can be found from following links (thanks to their work):
+The original data of our dataset can be found from following links:
 - Yelp: https://business.yelp.com/data/resources/open-dataset/
 - Google Restaurant: https://cseweb.ucsd.edu/~jmcauley/datasets.html#google_restaurants
 
@@ -87,7 +73,7 @@ The command to evaluate the backbone models and ReFORM is as follows.
 
     ```python encoder/train_encoder.py --model lightgcn --dataset {dataset} --cuda 0```   
   
-  - ReFORM
+  - **ReFORM**
 
     ```python encoder/train_encoder.py --model reform --dataset {dataset} --cuda 0```
   
@@ -102,8 +88,10 @@ Hypeparameters:
 
  **For advanced usage of arguments, run the code with --help argument.**
 
-## 🔮 Profile Generation and Semantic Representation Encoding
-Here we provide some examples with *Yelp* Data to generate user/item profiles and semantic representations.
+## 🔮 Factor-specific Profile Generation Profile Encoding
+Here we provide some examples with *Yelp* Data to generate user/item profiles and semantic representations.  
+You can also download the input files for profile creation and the generated profile from the [Google Drive](https://drive.google.com/drive/folders/17WYUnoX0SGo3bFN0w5Sbt23rEUjIjnYC?usp=sharing).  
+Place the files in the **generation** folder in their respective locations.
 
 Firstly, we need to complete the following three steps.
 - Install the openai library `pip install openai`
@@ -120,11 +108,11 @@ Then, here are the commands to generate the desired output with examples:
 
     ```python generation/profile/user/generate_user_profile.py```
 
-  - **Semantic Representation**:
+  - **Profile Encoding**:
 
     ```python generation/emb/gen_factor_emb.py --name {usr/itm}```
 
-For semantic representation encoding, you can also try other text embedding models.
+For profile encoding, you can also try other text embedding models.
 
 😀 The **factor descriptions** we designed are in the `generate_{item/user}_profile.py` files. You can modify them according to your requirements and generate the desired output!
 
