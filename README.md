@@ -44,7 +44,7 @@ Please put these data under the **data** directory.
 The data contains the coo matrix separated into train, validate, and test, as well as the transformed text embeddings.  
 During the training process, we utilize the validation set to determine when to stop the training in order to prevent overfitting.
 ```
-- yelp(google restaurant)
+- yelp(google restaurants)
 |--- trn_mat.pkl            # training set (sparse matrix)
 |--- val_mat.pkl            # validation set (sparse matrix)
 |--- tst_mat.pkl            # test set (sparse matrix)
@@ -61,7 +61,7 @@ During the training process, we utilize the validation set to determine when to 
 
 The original data of our dataset can be found from following links:
 - Yelp: https://business.yelp.com/data/resources/open-dataset/
-- Google Restaurant: https://cseweb.ucsd.edu/~jmcauley/datasets.html#google_restaurants
+- Google Restaurants: https://cseweb.ucsd.edu/~jmcauley/datasets.html#google_restaurants
 
 <!-- 🤗 Welcome to use our processed data to improve your research! -->
 
