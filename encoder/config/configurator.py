@@ -69,19 +69,12 @@ def parse_configure(model=None, dataset=None):
         usrprf_embeds_path = "./data/{}/usr_emb_factors.pkl".format(configs['data']['name'])
         itmprf_embeds_path = "./data/{}/itm_emb_factors.pkl".format(configs['data']['name'])
 
-        # RLMRec
-        usrprf_mean_embeds_path = "./data/{}/usr_emb_mean.pkl".format(configs['data']['name'])
-        itmprf_mean_embeds_path = "./data/{}/itm_emb_mean.pkl".format(configs['data']['name'])
         
         if os.path.exists(usrprf_embeds_path):
             with open(usrprf_embeds_path, 'rb') as f:
                 configs['usrprf_embeds'] = pickle.load(f)
             with open(itmprf_embeds_path, 'rb') as f:
                 configs['itmprf_embeds'] = pickle.load(f)
-            with open(usrprf_mean_embeds_path, 'rb') as f:
-                configs['usrprf_mean_embeds'] = pickle.load(f)
-            with open(itmprf_mean_embeds_path, 'rb') as f:
-                configs['itmprf_mean_embeds'] = pickle.load(f)
 
         return configs
 
