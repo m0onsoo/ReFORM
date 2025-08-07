@@ -3,7 +3,7 @@
  This is the PyTorch implementation by Anonymous for ReFORM framework
 
  >**ReFORM: Review-aggregated Profile Generation via LLM with Multi-Factor Attentive Recommendation**  
- >Anonymous\
+ >Anonymous
 
 
 
