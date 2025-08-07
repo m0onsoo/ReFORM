@@ -4,7 +4,6 @@
 
  >**ReFORM: Review-aggregated Profile Generation via LLM with Multi-Factor Attentive Recommendation**  
  >Anonymous\
- >*RecSys 2025*
 
 
 
